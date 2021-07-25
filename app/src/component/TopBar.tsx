@@ -2,18 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from './IconButton'; 
 
-export const TopBar : React.FC = () => {
+interface Props {
+    onClick: (screenName: string) => void;
+}
+
+export const TopBar : React.FC<Props> = ({onClick}) => {
 
     return(
         <View style={styles.container}>
             <Text style={styles.logo}>TYPE 1 COPILOT</Text>
             <View style={styles.boxContainer}>
-                <IconButton icon='home' />
-                <IconButton icon='bell' /> 
-                <IconButton icon='clock' />
-                <IconButton icon='settings' />
+                <IconButton onClick={() => {}} icon='home' />
+                <IconButton onClick={() => {}} icon='bell' /> 
+                <IconButton onClick={() => onClick('history')} icon='clock' />
+                <IconButton onClick={() => {}} icon='settings' />
             </View>
-            
         </View>
     );
 

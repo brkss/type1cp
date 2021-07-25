@@ -5,7 +5,7 @@ import { useDataQuery } from "../generated/graphql";
 
 const {height} = Dimensions.get('window');
 
-export const Home : React.FC = () => {
+export const Home : React.FC = (props: any) => {
 
     const {loading, data} = useDataQuery({
         onCompleted: (data) => {
@@ -16,6 +16,10 @@ export const Home : React.FC = () => {
         }
     });
 
+    const navigateRoutes = (screen: string) => {
+        props.navigation.navigate(screen);
+    }
+
     if(loading){
         return <Text>Loading !</Text>
     }
@@ -24,7 +28,7 @@ export const Home : React.FC = () => {
         <View style={styles.container}>
             
             <View style={styles.topBarContainer}>
-                <TopBar />
+                <TopBar onClick={(screen: string) => navigateRoutes(screen)} />
             </View>
             <View style={styles.contentContainer}>
                 <Text>{data?.data}</Text>
