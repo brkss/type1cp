@@ -1,17 +1,33 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { TopBar, Info, Input, Button } from '../component';
+import { useDataQuery } from "../generated/graphql";
 
 const {height} = Dimensions.get('window');
 
 export const Home : React.FC = () => {
 
+    const {loading, data} = useDataQuery({
+        onCompleted: (data) => {
+            console.log("data => ", data.data);
+        },
+        onError: (e) => {
+            console.log("error => ", e);
+        }
+    });
+
+    if(loading){
+        return <Text>Loading !</Text>
+    }
+
     return (
         <View style={styles.container}>
+            
             <View style={styles.topBarContainer}>
                 <TopBar />
             </View>
             <View style={styles.contentContainer}>
+                <Text>{data?.data}</Text>
                 <Text style={styles.title}>Calculating  Every Meal Carbs {'\n'}Help You Manage {'\n'}Your Diabetes Better</Text>
                 <Info />
                 <Input label='Blood Sugar Before Eating :' unit='Mg/DL' />

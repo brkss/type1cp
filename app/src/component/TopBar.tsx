@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { IconButton } from '.'; 
+import { IconButton } from './IconButton'; 
 
 export const TopBar : React.FC = () => {
 

@@ -5,13 +5,22 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.3.21",
+    "@apollo/react-hooks": "^4.0.0",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link": "^1.2.14",
+    "apollo-link-rest": "^0.8.0-beta.0",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "graphql": "^15.5.1",
+    "graphql-anywhere": "^4.2.7",
+    "graphql-tag": "^2.12.5",
+    "qs": "^6.10.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
@@ -20,10 +29,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@graphql-codegen/cli": "1.21.7",
+    "@types/graphql": "^14.5.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/react-native-vector-icons": "^6.4.8",
-    "typescript": "~4.0.0"
+    "typescript": "~4.0.0",
+    "@graphql-codegen/typescript": "1.23.0",
+    "@graphql-codegen/typescript-react-apollo": "2.3.1",
+    "@graphql-codegen/typescript-operations": "1.18.4",
+    "@graphql-codegen/introspection": "1.18.2"
   },
   "private": true
 }
