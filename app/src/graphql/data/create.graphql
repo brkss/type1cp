@@ -1,0 +1,14 @@
+mutation CreateBaseData{
+  createBaseData(data: {bg_before: 145, carbs: 89}){
+    status
+    message
+    base{
+      id
+      bg_before
+      carbs
+      bg_after
+      hypoglycemia
+      correction
+    }
+  }
+}

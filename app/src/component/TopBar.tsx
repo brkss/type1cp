@@ -12,7 +12,7 @@ export const TopBar : React.FC<Props> = ({onClick}) => {
         <View style={styles.container}>
             <Text style={styles.logo}>TYPE 1 COPILOT</Text>
             <View style={styles.boxContainer}>
-                <IconButton onClick={() => {}} icon='home' />
+                <IconButton onClick={() => onClick('home')} icon='home' />
                 <IconButton onClick={() => {}} icon='bell' /> 
                 <IconButton onClick={() => onClick('history')} icon='clock' />
                 <IconButton onClick={() => {}} icon='settings' />

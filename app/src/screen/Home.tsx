@@ -7,22 +7,13 @@ const {height} = Dimensions.get('window');
 
 export const Home : React.FC = (props: any) => {
 
-    const {loading, data} = useDataQuery({
-        onCompleted: (data) => {
-            console.log("data => ", data.data);
-        },
-        onError: (e) => {
-            console.log("error => ", e);
-        }
-    });
+    
 
     const navigateRoutes = (screen: string) => {
         props.navigation.navigate(screen);
     }
 
-    if(loading){
-        return <Text>Loading !</Text>
-    }
+    
 
     return (
         <View style={styles.container}>
@@ -31,14 +22,12 @@ export const Home : React.FC = (props: any) => {
                 <TopBar onClick={(screen: string) => navigateRoutes(screen)} />
             </View>
             <View style={styles.contentContainer}>
-                <Text>{data?.data}</Text>
                 <Text style={styles.title}>Calculating  Every Meal Carbs {'\n'}Help You Manage {'\n'}Your Diabetes Better</Text>
                 <Info />
                 <Input label='Blood Sugar Before Eating :' unit='Mg/DL' />
                 <Input label='How Much Carbs You’re Taking :' unit='g'/>
                 <Button onPress={() => {}} label='Validate' />
             </View>
-            
         </View>
     );
 };
