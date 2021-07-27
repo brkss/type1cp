@@ -13,7 +13,7 @@ export class DataResolver {
     }
 
     @Mutation(() => DataDefaultResponse)
-    async createData(@Arg('data') data: AddBaseInput) : Promise<DataDefaultResponse>{
+    async createBaseData(@Arg('data') data: AddBaseInput) : Promise<DataDefaultResponse>{
 
         if(!data || !data.bg_before || !data.carbs){
             return {

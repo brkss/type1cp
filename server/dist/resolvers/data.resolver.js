@@ -30,7 +30,7 @@ let DataResolver = class DataResolver {
     data() {
         return 'hello from data';
     }
-    createData(data) {
+    createBaseData(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!data || !data.bg_before || !data.carbs) {
                 return {
@@ -70,7 +70,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [inputs_1.AddBaseInput]),
     __metadata("design:returntype", Promise)
-], DataResolver.prototype, "createData", null);
+], DataResolver.prototype, "createBaseData", null);
 DataResolver = __decorate([
     type_graphql_1.Resolver()
 ], DataResolver);
