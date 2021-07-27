@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Base = void 0;
 const typeorm_1 = require("typeorm");
 const type_graphql_1 = require("type-graphql");
-let Base = class Base {
+let Base = class Base extends typeorm_1.BaseEntity {
 };
 __decorate([
     type_graphql_1.Field(),
@@ -30,8 +30,8 @@ __decorate([
     __metadata("design:type", Number)
 ], Base.prototype, "carbs", void 0);
 __decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column(),
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ default: null }),
     __metadata("design:type", Number)
 ], Base.prototype, "bg_after", void 0);
 __decorate([

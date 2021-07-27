@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
+
 
 @ObjectType()
 @Entity()
-export class Base {
+export class Base extends BaseEntity {
 
     @Field()
     @PrimaryGeneratedColumn()
@@ -17,9 +18,9 @@ export class Base {
     @Column()
     carbs: number;
 
-    @Field()
-    @Column()
-    bg_after: number;
+    @Field({nullable: true})
+    @Column({default: null})
+    bg_after?: number;
 
     @Field()
     @Column({default: false})
