@@ -12,6 +12,11 @@ export class DataResolver {
         return 'hello from data';
     }
 
+    @Query(() => [Base])
+    async history(){
+        return Base.find();
+    }
+
     @Mutation(() => DataDefaultResponse)
     async createBaseData(@Arg('data') data: AddBaseInput) : Promise<DataDefaultResponse>{
 
@@ -40,5 +45,6 @@ export class DataResolver {
         }
 
     }
+
 
 }

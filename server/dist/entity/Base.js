@@ -35,6 +35,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Base.prototype, "bg_after", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ default: null }),
+    __metadata("design:type", Number)
+], Base.prototype, "insulin_taken", void 0);
+__decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({ default: false }),
     __metadata("design:type", Boolean)

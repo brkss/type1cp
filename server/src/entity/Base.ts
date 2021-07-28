@@ -22,6 +22,10 @@ export class Base extends BaseEntity {
     @Column({default: null})
     bg_after?: number;
 
+    @Field({nullable: true})
+    @Column({default: null})
+    insulin_taken?: number;
+
     @Field()
     @Column({default: false})
     hypoglycemia?: boolean;

@@ -30,6 +30,11 @@ let DataResolver = class DataResolver {
     data() {
         return 'hello from data';
     }
+    history() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return entity_1.Base.find();
+        });
+    }
     createBaseData(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!data || !data.bg_before || !data.carbs) {
@@ -64,6 +69,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DataResolver.prototype, "data", null);
+__decorate([
+    type_graphql_1.Query(() => [entity_1.Base]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], DataResolver.prototype, "history", null);
 __decorate([
     type_graphql_1.Mutation(() => responses_1.DataDefaultResponse),
     __param(0, type_graphql_1.Arg('data')),
