@@ -4,15 +4,16 @@ import { View, TextInput, StyleSheet, Text } from 'react-native';
 interface Props {
     label: string;
     unit?: string;
+    onChange: (value: string) => void;
 }
 
-export const Input : React.FC<Props> = ({label, unit}) => {
+export const Input : React.FC<Props> = ({label, unit, onChange}) => {
 
     return(
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.inputContainer}>
-                <TextInput style={styles.input} />
+                <TextInput style={styles.input} onChangeText={(value) => onChange(value)} />
                 {
                     unit ? 
                     <Text style={styles.unit}>{unit}</Text> : null

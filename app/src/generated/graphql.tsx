@@ -27,6 +27,7 @@ export type Base = {
   bg_before: Scalars['Float'];
   carbs: Scalars['Float'];
   bg_after?: Maybe<Scalars['Float']>;
+  insulin_taken?: Maybe<Scalars['Float']>;
   hypoglycemia: Scalars['Boolean'];
   correction: Scalars['Float'];
   created_at: Scalars['DateTime'];
@@ -54,9 +55,13 @@ export type MutationCreateBaseDataArgs = {
 export type Query = {
   __typename?: 'Query';
   data: Scalars['String'];
+  history: Array<Base>;
 };
 
-export type CreateBaseDataMutationVariables = Exact<{ [key: string]: never; }>;
+export type CreateBaseDataMutationVariables = Exact<{
+  bg_before: Scalars['Float'];
+  carbs: Scalars['Float'];
+}>;
 
 
 export type CreateBaseDataMutation = (
@@ -66,9 +71,20 @@ export type CreateBaseDataMutation = (
     & Pick<DataDefaultResponse, 'status' | 'message'>
     & { base?: Maybe<(
       { __typename?: 'Base' }
-      & Pick<Base, 'id' | 'bg_before' | 'carbs' | 'bg_after' | 'hypoglycemia' | 'correction'>
+      & Pick<Base, 'id' | 'bg_before' | 'carbs' | 'bg_after' | 'hypoglycemia' | 'correction' | 'insulin_taken' | 'created_at'>
     )> }
   ) }
+);
+
+export type HistoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HistoryQuery = (
+  { __typename?: 'Query' }
+  & { history: Array<(
+    { __typename?: 'Base' }
+    & Pick<Base, 'id' | 'bg_before' | 'carbs' | 'bg_after' | 'hypoglycemia' | 'correction' | 'insulin_taken' | 'created_at'>
+  )> }
 );
 
 export type DataQueryVariables = Exact<{ [key: string]: never; }>;
@@ -81,8 +97,8 @@ export type DataQuery = (
 
 
 export const CreateBaseDataDocument = gql`
-    mutation CreateBaseData {
-  createBaseData(data: {bg_before: 145, carbs: 89}) {
+    mutation CreateBaseData($bg_before: Float!, $carbs: Float!) {
+  createBaseData(data: {bg_before: $bg_before, carbs: $carbs}) {
     status
     message
     base {
@@ -92,6 +108,8 @@ export const CreateBaseDataDocument = gql`
       bg_after
       hypoglycemia
       correction
+      insulin_taken
+      created_at
     }
   }
 }
@@ -111,6 +129,8 @@ export type CreateBaseDataMutationFn = Apollo.MutationFunction<CreateBaseDataMut
  * @example
  * const [createBaseDataMutation, { data, loading, error }] = useCreateBaseDataMutation({
  *   variables: {
+ *      bg_before: // value for 'bg_before'
+ *      carbs: // value for 'carbs'
  *   },
  * });
  */
@@ -121,6 +141,47 @@ export function useCreateBaseDataMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateBaseDataMutationHookResult = ReturnType<typeof useCreateBaseDataMutation>;
 export type CreateBaseDataMutationResult = Apollo.MutationResult<CreateBaseDataMutation>;
 export type CreateBaseDataMutationOptions = Apollo.BaseMutationOptions<CreateBaseDataMutation, CreateBaseDataMutationVariables>;
+export const HistoryDocument = gql`
+    query History {
+  history {
+    id
+    bg_before
+    carbs
+    bg_after
+    hypoglycemia
+    correction
+    insulin_taken
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useHistoryQuery__
+ *
+ * To run a query within a React component, call `useHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHistoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHistoryQuery(baseOptions?: Apollo.QueryHookOptions<HistoryQuery, HistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HistoryQuery, HistoryQueryVariables>(HistoryDocument, options);
+      }
+export function useHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HistoryQuery, HistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HistoryQuery, HistoryQueryVariables>(HistoryDocument, options);
+        }
+export type HistoryQueryHookResult = ReturnType<typeof useHistoryQuery>;
+export type HistoryLazyQueryHookResult = ReturnType<typeof useHistoryLazyQuery>;
+export type HistoryQueryResult = Apollo.QueryResult<HistoryQuery, HistoryQueryVariables>;
 export const DataDocument = gql`
     query Data {
   data

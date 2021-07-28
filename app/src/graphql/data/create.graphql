@@ -1,5 +1,5 @@
-mutation CreateBaseData{
-  createBaseData(data: {bg_before: 145, carbs: 89}){
+mutation CreateBaseData($bg_before: Float!, $carbs: Float!){
+  createBaseData(data: {bg_before: $bg_before, carbs: $carbs}){
     status
     message
     base{
@@ -9,6 +9,8 @@ mutation CreateBaseData{
       bg_after
       hypoglycemia
       correction
+      insulin_taken
+      created_at  
     }
   }
 }

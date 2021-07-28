@@ -1,0 +1,12 @@
+query History{
+  history{
+    id
+    bg_before
+    carbs
+    bg_after
+    hypoglycemia
+    correction
+    insulin_taken
+    created_at
+  }
+}

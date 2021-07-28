@@ -1,32 +1,67 @@
+import { useLinkBuilder } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { TopBar, Info, Input, Button } from '../component';
-import { useDataQuery } from "../generated/graphql";
+import { View, Text, StyleSheet, Dimensions, DevSettings, KeyboardAvoidingViewBase } from "react-native";
+import { TopBar, Info, Input, Button, Alert } from '../component';
+import { useCreateBaseDataMutation, useDataQuery } from "../generated/graphql";
 
 const {height} = Dimensions.get('window');
 
 export const Home : React.FC = (props: any) => {
 
-    
-
-    const navigateRoutes = (screen: string) => {
-        props.navigation.navigate(screen);
+    const [error, SetError] = React.useState('');
+    const [form, SetForm] = React.useState<any>();
+    const [createBase] = useCreateBaseDataMutation();
+    // handle form 
+    const handleForm = (index: string, value: string) => {
+        SetForm({
+            ...form,
+            [index]: value
+        })
     }
 
+    // handle data creation 
+    const handleCreatebaseData = () => {
+        if(!form || !form.bg_before || !form.carbs){
+            SetError('Invalid Data !');
+            return;
+        }
+        SetError('');
+        const _data = {
+            bg_before : Number(form.bg_before),
+            carbs: Number(form.carbs)
+        }
+        createBase({
+            variables: {
+                bg_before: _data.bg_before,
+                carbs: _data.carbs
+            }
+        }).then(res => {
+            if(res.data?.createBaseData.status && !error){
+                props.navigation.navigate('history');
+            }
+            console.log("req res => ", res);
+        });
+    }
     
+
 
     return (
         <View style={styles.container}>
-            
             <View style={styles.topBarContainer}>
-                <TopBar onClick={(screen: string) => navigateRoutes(screen)} />
+                <TopBar onClick={(screen: string) => props.navigation.navigate(screen)} />
             </View>
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Calculating  Every Meal Carbs {'\n'}Help You Manage {'\n'}Your Diabetes Better</Text>
                 <Info />
-                <Input label='Blood Sugar Before Eating :' unit='Mg/DL' />
-                <Input label='How Much Carbs You’re Taking :' unit='g'/>
-                <Button onPress={() => {}} label='Validate' />
+                {
+                    error ? 
+                        <Alert message='Invalid Data !' type='error' />
+                    : null
+                }
+                
+                <Input label='Blood Sugar Before Eating :' unit='Mg/DL' onChange={(value: string) => handleForm('bg_before', value)} />
+                <Input label='How Much Carbs You’re Taking :' unit='g' onChange={(value: string) => handleForm('carbs', value)} />
+                <Button onPress={() => handleCreatebaseData()} label='Validate' />
             </View>
         </View>
     );
