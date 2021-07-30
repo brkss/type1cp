@@ -2,7 +2,7 @@ import { useLinkBuilder } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, DevSettings, KeyboardAvoidingViewBase } from "react-native";
 import { TopBar, Info, Input, Button, Alert } from '../component';
-import { useCreateBaseDataMutation, useDataQuery } from "../generated/graphql";
+import { HistoryDocument, HistoryQuery, useCreateBaseDataMutation, useDataQuery } from "../generated/graphql";
 
 const {height} = Dimensions.get('window');
 
@@ -34,6 +34,23 @@ export const Home : React.FC = (props: any) => {
             variables: {
                 bg_before: _data.bg_before,
                 carbs: _data.carbs
+            },
+            update: (store, {data}) => {
+                if(!data || !data.createBaseData.base){
+                    return null;
+                }
+                const oldBaseData = store.readQuery<HistoryQuery>({
+                    query: HistoryDocument
+                })?.history
+                const newBaseData = data.createBaseData.base;
+                oldBaseData!.unshift(newBaseData!)
+                console.log('UPDATE DA SHIT')
+                store.writeQuery<HistoryQuery>({
+                    query: HistoryDocument,
+                    data: {
+                        history: oldBaseData!
+                    }
+                })
             }
         }).then(res => {
             if(res.data?.createBaseData.status && !error){
