@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions, RefreshControl} from 'react-native';
-import { Element, TopBar } from '../component';
+import { Element, TopBar, DataDrawer } from '../component';
 import { useHistoryQuery } from '../generated/graphql';
+import RBSheet from "react-native-raw-bottom-sheet";
+import { IBaseData } from '../utils/types/BaseData';
 
 const wait = (timeout: number) => {
     return new Promise(resolve => {
@@ -12,6 +14,10 @@ const { height } = Dimensions.get('window');
 
 export const History : React.FC = (props: any) => {
 
+
+    const refRBSheet = React.useRef() as any;
+    const [currentBaseData, SetCurrentBaseData] = React.useState<IBaseData>();
+    const [currentBaseDataId, SetCurrentBaseDataId] = React.useState<number>(-1);
     const _history = useHistoryQuery({
         notifyOnNetworkStatusChange: true
     });
@@ -24,6 +30,17 @@ export const History : React.FC = (props: any) => {
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
+    // show Base Data Info 
+    const showBaseDataInfo = (history: any) => {
+        SetCurrentBaseData({
+            bg_before: history.bg_before,
+            carbs: history.carbs,
+            date: history.created_at
+        });
+        SetCurrentBaseDataId(history.id);
+        refRBSheet.current.open()
+    }
+
     if(_history.loading){
         return(
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -31,6 +48,8 @@ export const History : React.FC = (props: any) => {
             </View>
         )
     }
+
+    //return <Drawer />
 
     return (
         <View style={styles.container}>
@@ -43,14 +62,39 @@ export const History : React.FC = (props: any) => {
                 >
                     {
                         _history.data?.history.map((history, key) => (
-                            <Element {...{key}} bg_before={history.bg_before} carbs={history.carbs} date={history.created_at} />        
+                            <Element {...{key}} bg_before={history.bg_before} carbs={history.carbs} date={history.created_at} bg_after={history.bg_after || undefined} correction={history.correction || undefined} hypoglycemia={history.hypoglycemia || undefined} insulin_taken={history.insulin_taken || undefined} onGetinfo={() => showBaseDataInfo(history)} />        
                         ))
                     }
                 
                 </ScrollView>
             </View>
             
-            
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={false}
+                height={height - 150}
+                openDuration={400}
+                animationType='slide'
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "transparent",
+                        
+                    },
+                    draggableIcon: {
+                        backgroundColor: "#000"
+                    },
+                    container: {
+                        borderRadius: 20,
+                        backgroundColor: '#faefe3',
+                       
+                    }
+                    
+                }}
+            >
+                <DataDrawer id={currentBaseDataId} data={currentBaseData!} />
+            </RBSheet>
+
         </View>
     );
 }

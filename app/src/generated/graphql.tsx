@@ -45,6 +45,7 @@ export type DataDefaultResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBaseData: DataDefaultResponse;
+  updateBaseData: DataDefaultResponse;
 };
 
 
@@ -52,10 +53,25 @@ export type MutationCreateBaseDataArgs = {
   data: AddBaseInput;
 };
 
+
+export type MutationUpdateBaseDataArgs = {
+  data: UpdateBaseDataInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   data: Scalars['String'];
   history: Array<Base>;
+};
+
+export type UpdateBaseDataInput = {
+  id: Scalars['Float'];
+  bg_before: Scalars['Float'];
+  carbs: Scalars['Float'];
+  bg_after?: Maybe<Scalars['Float']>;
+  insulin_taken?: Maybe<Scalars['Float']>;
+  correction?: Maybe<Scalars['Float']>;
+  hypoglycemia?: Maybe<Scalars['Boolean']>;
 };
 
 export type CreateBaseDataMutationVariables = Exact<{
@@ -85,6 +101,29 @@ export type HistoryQuery = (
     { __typename?: 'Base' }
     & Pick<Base, 'id' | 'bg_before' | 'carbs' | 'bg_after' | 'hypoglycemia' | 'correction' | 'insulin_taken' | 'created_at'>
   )> }
+);
+
+export type UpdateBaseDataMutationVariables = Exact<{
+  id: Scalars['Float'];
+  bg_before: Scalars['Float'];
+  carbs: Scalars['Float'];
+  bg_after?: Maybe<Scalars['Float']>;
+  insulin_taken?: Maybe<Scalars['Float']>;
+  correction?: Maybe<Scalars['Float']>;
+  hypoglycemia?: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateBaseDataMutation = (
+  { __typename?: 'Mutation' }
+  & { updateBaseData: (
+    { __typename?: 'DataDefaultResponse' }
+    & Pick<DataDefaultResponse, 'status' | 'message'>
+    & { base?: Maybe<(
+      { __typename?: 'Base' }
+      & Pick<Base, 'id' | 'bg_before' | 'carbs' | 'bg_after' | 'hypoglycemia' | 'correction' | 'insulin_taken' | 'created_at'>
+    )> }
+  ) }
 );
 
 export type DataQueryVariables = Exact<{ [key: string]: never; }>;
@@ -182,6 +221,58 @@ export function useHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hi
 export type HistoryQueryHookResult = ReturnType<typeof useHistoryQuery>;
 export type HistoryLazyQueryHookResult = ReturnType<typeof useHistoryLazyQuery>;
 export type HistoryQueryResult = Apollo.QueryResult<HistoryQuery, HistoryQueryVariables>;
+export const UpdateBaseDataDocument = gql`
+    mutation UpdateBaseData($id: Float!, $bg_before: Float!, $carbs: Float!, $bg_after: Float, $insulin_taken: Float, $correction: Float, $hypoglycemia: Boolean) {
+  updateBaseData(
+    data: {id: $id, bg_before: $bg_before, carbs: $carbs, bg_after: $bg_after, insulin_taken: $insulin_taken, correction: $correction, hypoglycemia: $hypoglycemia}
+  ) {
+    status
+    message
+    base {
+      id
+      bg_before
+      carbs
+      bg_after
+      hypoglycemia
+      correction
+      insulin_taken
+      created_at
+    }
+  }
+}
+    `;
+export type UpdateBaseDataMutationFn = Apollo.MutationFunction<UpdateBaseDataMutation, UpdateBaseDataMutationVariables>;
+
+/**
+ * __useUpdateBaseDataMutation__
+ *
+ * To run a mutation, you first call `useUpdateBaseDataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBaseDataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBaseDataMutation, { data, loading, error }] = useUpdateBaseDataMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      bg_before: // value for 'bg_before'
+ *      carbs: // value for 'carbs'
+ *      bg_after: // value for 'bg_after'
+ *      insulin_taken: // value for 'insulin_taken'
+ *      correction: // value for 'correction'
+ *      hypoglycemia: // value for 'hypoglycemia'
+ *   },
+ * });
+ */
+export function useUpdateBaseDataMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBaseDataMutation, UpdateBaseDataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBaseDataMutation, UpdateBaseDataMutationVariables>(UpdateBaseDataDocument, options);
+      }
+export type UpdateBaseDataMutationHookResult = ReturnType<typeof useUpdateBaseDataMutation>;
+export type UpdateBaseDataMutationResult = Apollo.MutationResult<UpdateBaseDataMutation>;
+export type UpdateBaseDataMutationOptions = Apollo.BaseMutationOptions<UpdateBaseDataMutation, UpdateBaseDataMutationVariables>;
 export const DataDocument = gql`
     query Data {
   data

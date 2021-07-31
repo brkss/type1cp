@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
 
 const {width} = Dimensions.get('screen');
 interface Props {
@@ -10,13 +10,14 @@ interface Props {
     correction?: number;
     hypoglycemia?: boolean;
     date: string;
+    onGetinfo: () => void;
 }
 
 export const Element : React.FC<Props> = (props) => {
 
 
     return(
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onGetinfo()} >
             
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>{props.carbs}g of Carbs ~ {props.insulin_taken || 'N/A'} units</Text>
@@ -26,7 +27,7 @@ export const Element : React.FC<Props> = (props) => {
             <Text style={styles.subtitle}>Correction : {props.insulin_taken || 'N/A'} units </Text>
             <Text style={styles.subtitle}>{props.hypoglycemia ? 'you had hypoglycemia' : 'no hypoglycemia'} </Text>
             <Text style={styles.date}>{props.date}</Text>
-        </View>
+        </TouchableOpacity>
     );
 } 
 

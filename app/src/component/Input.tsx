@@ -5,15 +5,16 @@ interface Props {
     label: string;
     unit?: string;
     onChange: (value: string) => void;
+    value?: string;
 }
 
-export const Input : React.FC<Props> = ({label, unit, onChange}) => {
+export const Input : React.FC<Props> = ({label, unit, onChange, value}) => {
 
     return(
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.inputContainer}>
-                <TextInput style={styles.input} onChangeText={(value) => onChange(value)} />
+                <TextInput style={styles.input} value={value} onChangeText={(value) => onChange(value)} />
                 {
                     unit ? 
                     <Text style={styles.unit}>{unit}</Text> : null
