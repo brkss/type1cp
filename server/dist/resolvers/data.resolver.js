@@ -32,7 +32,7 @@ let DataResolver = class DataResolver {
     }
     history() {
         return __awaiter(this, void 0, void 0, function* () {
-            return entity_1.Base.find();
+            return entity_1.Base.find({ order: { id: 'DESC' } });
         });
     }
     createBaseData(data) {
@@ -62,6 +62,43 @@ let DataResolver = class DataResolver {
             }
         });
     }
+    updateBaseData(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!data || !data.id) {
+                return {
+                    status: false,
+                    message: 'Invalid Data !'
+                };
+            }
+            const baseData = yield entity_1.Base.findOne({ where: { id: data.id } });
+            if (!baseData) {
+                return {
+                    status: false,
+                    message: 'Base Data not found !'
+                };
+            }
+            try {
+                baseData.bg_after = data.bg_after || baseData.bg_after;
+                baseData.bg_before = data.bg_before;
+                baseData.carbs = data.carbs;
+                baseData.correction = data.correction || baseData.correction;
+                baseData.hypoglycemia = data.hypoglycemia || baseData.hypoglycemia;
+                baseData.insulin_taken = data.insulin_taken || baseData.insulin_taken;
+                yield baseData.save();
+                return {
+                    status: true,
+                    base: baseData
+                };
+            }
+            catch (e) {
+                console.log("error while updating base data => ", e);
+                return {
+                    status: false,
+                    message: 'Something went wrong !'
+                };
+            }
+        });
+    }
 };
 __decorate([
     type_graphql_1.Query(() => String),
@@ -82,6 +119,13 @@ __decorate([
     __metadata("design:paramtypes", [inputs_1.AddBaseInput]),
     __metadata("design:returntype", Promise)
 ], DataResolver.prototype, "createBaseData", null);
+__decorate([
+    type_graphql_1.Mutation(() => responses_1.DataDefaultResponse),
+    __param(0, type_graphql_1.Arg('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [inputs_1.UpdateBaseDataInput]),
+    __metadata("design:returntype", Promise)
+], DataResolver.prototype, "updateBaseData", null);
 DataResolver = __decorate([
     type_graphql_1.Resolver()
 ], DataResolver);
