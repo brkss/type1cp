@@ -1,14 +1,26 @@
 
 
 
+/* Import Fonts ! */
+@font-face {
+    font-family: 'monument-regular'; /*a name to be used later*/
+    src: url('../fonts/MonumentExtended-Regular.otf'); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'monument-bold'; /*a name to be used later*/
+    src: url('../fonts/MonumentExtended-Ultrabold.otf'); /*URL to font*/
+}
 * {
 
   padding: 0;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'monument-bold'; /*a name to be used later*/
 }
 
-
+html, body {
+   overflow-x: hidden;
+}
 .slide-container {
   color: white;
   position: relative;
@@ -51,5 +63,33 @@
 
 .news-letter {
   height: 100vh;
-  background: white;
+  background: #DACEB3;
+}
+.sub-title {
+    font-family: 'monument-regular'; /*a name to be used later*/
+}
+.info-container {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+    padding: 7px;
+}
+.form-container{
+  margin: 10px 0;
+}
+.input-nl{
+    padding: 12px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #4c4c4c;
+    padding-left: 0;
+    border-bottom: 10px solid #6b6454;  
+}
+
+.input-nl:focus{
+  outline: none;
 }
