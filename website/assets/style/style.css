@@ -19,7 +19,8 @@
 }
 
 html, body {
-   overflow-x: hidden;
+  overflow-x: hidden;
+  background: #DACEB3;
 }
 .slide-container {
   color: white;
@@ -92,4 +93,9 @@ html, body {
 
 .input-nl:focus{
   outline: none;
+}
+.image-side {
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
